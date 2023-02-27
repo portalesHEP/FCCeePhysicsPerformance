@@ -6,6 +6,7 @@ find_package(EDM4HEP)
 find_package(podio)
 # Until root properly exports vdt include dirs, include it explicitly 
 find_package(Vdt)
+find_package(Fastjet)
 
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
@@ -15,13 +16,15 @@ get_target_property(EDM4HEP_INCLUDE_DIRS EDM4HEP::edm4hep INTERFACE_INCLUDE_DIRE
 include_directories(${EDM4HEP_INCLUDE_DIRS}
                     ${podio_INCLUDE_DIR}
                     ${VDT_INCLUDE_DIR}
-	                  ${FCCANALYSES_INCLUDE_PATH}
+	            ${FCCANALYSES_INCLUDE_PATH}
+                    ${FASTJET_INCLUDE_DIR}	  
                    )
 
 ROOT_GENERATE_DICTIONARY(G__FCCAnalysesHiggs 
                          dummyLoaderHiggs.h
                          APCHiggsTools.h
-                         LINKDEF LinkDef.h
+                         LLRHiggsTools.h
+			 LINKDEF LinkDef.h
                          )
 
 
@@ -32,6 +35,8 @@ target_include_directories(FCCAnalysesHiggs  PUBLIC
                            ${CMAKE_SOURCE_DIR}/analyzers
 	                         ${FCCANALYSES_INCLUDE_PATH}
                            ${VDT_INCLUDE_DIR}
+                           ${FASTJET_INCLUDE_DIR}
+
                           )
 target_link_libraries(FCCAnalysesHiggs ROOT::Physics 
                       ROOT::MathCore 
@@ -40,7 +45,7 @@ target_link_libraries(FCCAnalysesHiggs ROOT::Physics
                       EDM4HEP::edm4hep 
                       EDM4HEP::edm4hepDict 
                       podio::podio
-                      )
+                      ${FASTJET_LIBRARY} ${FASTJET_LIBRARY_DIRS}/libfastjetplugins.so)
 
 set_target_properties(FCCAnalysesHiggs
                       PROPERTIES PUBLIC_HEADER "${headers}")

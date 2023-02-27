@@ -118,7 +118,7 @@ ROOT::VecOps::RVec<edm4hep::ReconstructedParticleData> APCHiggsTools::resonanceZ
 		     // or (as done below) use the track index to map the leg to the MC particle :-(
 
 		     int track_index = legs[i].tracks_begin ;   // index in the Track array
-		     int mc_index = ReconstructedParticle2MC::getTrack2MC_index( track_index, recind, mcind, reco );
+		     int mc_index = FCCAnalyses::ReconstructedParticle2MC::getTrack2MC_index( track_index, recind, mcind, reco );
 		     if ( mc_index >= 0 && mc_index < mc.size() ) {
 			 int pdgID = mc.at( mc_index).PDG;
 		         leg_lv.SetXYZM(mc.at(mc_index ).momentum.x, mc.at(mc_index ).momentum.y, mc.at(mc_index ).momentum.z, mc.at(mc_index ).mass );
